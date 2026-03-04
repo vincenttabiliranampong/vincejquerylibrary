@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calculator</title>
+    <title>Simple jQuery Calculator</title>
 
-    <!-- jQuery CDN -->
+    <!-- jQuery Library -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <style>
         body {
             font-family: Arial, sans-serif;
+            padding: 20px;
         }
 
         .container {
@@ -17,21 +18,27 @@
             gap: 10px;
         }
 
-        .container input,
-        .container select {
-            height: 25px;
+        input, select {
+            height: 30px;
+            padding: 5px;
         }
 
-        .solve-btn {
+        button {
             margin-top: 10px;
+            padding: 5px 15px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <label>First Number:</label>
-        <input type="text" id="firstNumber">
+        <input type="number" id="firstNumber" placeholder="First Number">
 
         <select id="operator">
             <option value="+">+</option>
@@ -40,111 +47,42 @@
             <option value="/">/</option>
         </select>
 
-        <label>Second Number:</label>
-        <input type="text" id="secondNumber">
+        <input type="number" id="secondNumber" placeholder="Second Number">
     </div>
 
-    <div class="solve-btn">
-        <button id="solveBtn">Solve</button>
-    </div>
+    <button id="solveBtn">Solve</button>
 
     <p id="result"></p>
 
     <script>
-        $(document).ready(function() {
+        $(function() {
 
             $("#solveBtn").click(function() {
 
-                var num1 = parseFloat($("#firstNumber").val());
-                var num2 = parseFloat($("#secondNumber").val());
-                var op = $("#operator").val();
-                var result;
+                let num1 = parseFloat($("#firstNumber").val());
+                let num2 = parseFloat($("#secondNumber").val());
+                let op = $("#operator").val();
+                let result;
+
+                if (isNaN(num1) || isNaN(num2)) {
+                    $("#result").text("Please enter valid numbers.");
+                    return;
+                }
 
                 switch(op) {
                     case "+": result = num1 + num2; break;
                     case "-": result = num1 - num2; break;
                     case "*": result = num1 * num2; break;
-                    case "/": result = num1 / num2; break;
+                    case "/":
+                        if (num2 === 0) {
+                            $("#result").text("Cannot divide by zero.");
+                            return;
+                        }
+                        result = num1 / num2;
+                        break;
                 }
 
-                $("#result").html("Result: " + result);
-
-            });
-
-        });
-    </script>
-
-</body>
-</html><!DOCTYPE html>
-<html>
-<head>
-    <title>Calculator</title>
-
-    <!-- jQuery CDN -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-
-        .container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .container input,
-        .container select {
-            height: 25px;
-        }
-
-        .solve-btn {
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <label>First Number:</label>
-        <input type="text" id="firstNumber">
-
-        <select id="operator">
-            <option value="+">+</option>
-            <option value="-">-</option>
-            <option value="*">*</option>
-            <option value="/">/</option>
-        </select>
-
-        <label>Second Number:</label>
-        <input type="text" id="secondNumber">
-    </div>
-
-    <div class="solve-btn">
-        <button id="solveBtn">Solve</button>
-    </div>
-
-    <p id="result"></p>
-
-    <script>
-        $(document).ready(function() {
-
-            $("#solveBtn").click(function() {
-
-                var num1 = parseFloat($("#firstNumber").val());
-                var num2 = parseFloat($("#secondNumber").val());
-                var op = $("#operator").val();
-                var result;
-
-                switch(op) {
-                    case "+": result = num1 + num2; break;
-                    case "-": result = num1 - num2; break;
-                    case "*": result = num1 * num2; break;
-                    case "/": result = num1 / num2; break;
-                }
-
-                $("#result").html("Result: " + result);
+                $("#result").text("Result: " + result);
 
             });
 
